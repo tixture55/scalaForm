@@ -1,0 +1,169 @@
+
+@*
+ * This template takes a single argument, a String containing a
+ * message to display.
+ *@
+@(message: String)
+
+@main(message) {
+
+<!DOCTYPE html>
+<html>
+<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
+	<meta charset="utf-8">
+    <title>後期就活ナビ2017</title>
+
+    	<link rel="icon" href="https://koukisyukatunavi.jp/assets/img/navi/favicon.png">
+    <link rel="apple-touch-icon" href="https://koukisyukatunavi.jp/assets/img/navi/apple-touch-icon.png">
+		<link type="text/css" rel="stylesheet" href="https://koukisyukatunavi.jp/assets/css/bootstrap/bootstrap.min.css?1471537404" />
+		<link type="text/css" rel="stylesheet" href="https://koukisyukatunavi.jp/assets/css/style.css?1467814606" />
+
+    <link type="text/css" rel="stylesheet" href="/assets/css/validationEngine.jquery.css">
+    <link type="text/css" rel="stylesheet" href="/assets/css/bootstrap-datepicker3.min.css">
+
+    <script type="text/javascript">
+	function fuel_csrf_token()
+	{
+		if (document.cookie.length > 0)
+		{
+			var c_name = "fuel_csrf_token";
+			c_start = document.cookie.indexOf(c_name + "=");
+			if (c_start != -1)
+			{
+				c_start = c_start + c_name.length + 1;
+				c_end = document.cookie.indexOf(";" , c_start);
+				if (c_end == -1)
+				{
+					c_end=document.cookie.length;
+				}
+				return unescape(document.cookie.substring(c_start, c_end));
+			}
+		}
+		return "";
+	}
+</script>
+<!-- User Heat Tag -->
+
+</head>
+<body>
+
+
+<noscript>
+<div style="display:inline;">
+<img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/880163570/?value=0&amp;guid=ON&amp;script=0"/>
+</div>
+</noscript>
+    <header>
+        <div class="container">
+            <div class="clearfix">
+                <div class="pull-left description">@message これから頑張る！就活生を応援するナビサイト</div>
+
+            </div>
+            <div class="clearfix">
+                <div class="pull-left">
+
+                                    </div>
+                <div class="pull-right">
+                                        <span class="link_login">
+                        <a href="https://koukisyukatunavi.jp/login" class="btn btn-green">
+                            ログイン
+                        </a>
+                    </span>
+                    <span>
+                        <a href="https://koukisyukatunavi.jp/signin" class="btn btn-bordergreen">
+                        会員登録
+                        </a>
+                    </span>
+                                    </div>
+            </div>
+        </div>
+
+    </header>
+<div class="top-image">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-7 top_search">
+                <h3>今採用している企業・説明会を探す</h3>
+                <ul class="nav nav-tabs">
+                    <li role="presentation" class="active"><a href="#tab_s1" data-toggle="tab">企業を探す</a></li>
+                    <li role="presentation" class="noactive"><a href="#tab_s2" data-toggle="tab">説明会を探す</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="base-container tab-pane in active" id="tab_s1">
+                        <div class="col-xs-5">
+                            <p class="top_search_head"><img src="">条件を指定して探す</p>
+                            <ul class="search-menu-list">
+                                <li onclick="show_search(1)">業界</li>
+                                <li onclick="show_search(2)">職種</li>
+                                <li onclick="show_search(3)">勤務地</li>
+                            </ul>
+                            <input type="submit" class="btn gobutton" form="search_company" value="">
+                        </div>
+                        <div class="col-xs-7">
+                            <form action="@routes.Application.index()" method="get">
+                                <p class="top_search_head"><img src="">キーワードで探す</p>
+                                <div class="sform_keyword">
+                                    <div class="form-group">
+                                        <input type="text" name="keyword" class="form-control input-sm" placeholder="企業名・業界・職種など">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="hidden" name="type" value="0">
+                                        <input type="submit" class="btn gobutton" value="">
+                                    </div>
+                                </div>
+                            </form>
+                            <a href=""><img src="" alt="" /></a>
+                        </div>
+                    </div>
+                    <div class="base-container tab-pane" id="tab_s2">
+                        <div class="col-xs-5">
+                            <p class="top_search_head"><img src="">条件を指定して探す</p>
+                            <ul class="search-menu-list">
+                                <li onclick="show_esearch(1)">開催日</li>
+                                <li onclick="show_esearch(2)">業種</li>
+                                <li onclick="show_esearch(3)">開催地</li>
+                            </ul>
+                            <input type="submit" class="btn gobutton" form="search_event" value="">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-5">
+                <h3>新着掲載企業</h3>
+                <div class="top-newcompany-image">
+                    <ul class="bxslider">
+                                                <li>
+                            <a href="">
+                                <img src="">
+                                <div class="top-newcompany-body">
+                                    <p class="company_name" style="line-height:1.2;">株式会社</p>
+                                    <p class="company_copy" style="line-height:1.4;">Believe in your possibility！～根拠なき自信～</p>
+                                </div>
+                            </a>
+                        </li>
+                                                <li>
+                            <a href="">
+                                <img src="">
+                                <div class="top-newcompany-body">
+                                    <p class="company_name" style="line-height:1.2;">株式会社</p>
+                                    <p class="company_copy" style="line-height:1.4;">私たちと日本の健康のため、そして笑顔のために仕事をしませんか？</p>
+                                </div>
+                            </a>
+                        </li>
+                                                <li>
+                            <a href="">
+                                <img src="">
+                                <div class="top-newcompany-body">
+                                    <p class="company_name" style="line-height:1.2;">株式会社</p>
+                                    <p class="company_copy" style="line-height:1.4;">他社の真似はしない。自分たちオリジナルのビジネスで勝負する！！</p>
+                                </div>
+                            </a>
+                        </li>
+                                              </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}

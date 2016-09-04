@@ -1,10 +1,11 @@
 package controllers
 
 import play.api.mvc._
+
 import scala.collection.mutable.Map
 import scala.collection.mutable.Buffer
 import scala.collection.mutable.HashMap
-
+import java.sql.{DriverManager, Connection, Statement, ResultSet,SQLException}
 
 trait Monoid[T] {
   def zero: T
@@ -56,11 +57,43 @@ var capacity = 10
         	println(1)
 	}
 
-	def index() = Action {
+	def index() = Action { implicit request =>
+		def apply(f: Int => String, v: Int) = f(v)
+    	lazy val decorator = new Decorator("[", "]")
+
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+		var con =
+            DriverManager.getConnection("jdbc:mysql://localhost/test?" +
+                                   "user=root&password=xg23y91a");
+        try {
+           var stmt = con.createStatement()
+           var rs = stmt.executeQuery("SELECT * FROM Auth")
+           while (rs.next()){
+              print(rs.getString(1) + " ")
+              print(rs.getString(2) + " ")
+              print(rs.getString(3) + " ")
+              print(rs.getString(4) + " ")
+              print(rs.getString(5) + " ")
+              print(rs.getString(6) + " ")
+              println(rs.getString(7))
+          }
+          stmt.close()
+      } catch {
+         case e:SQLException => println("Database error "+e)
+
+         case e:Throwable => {
+           println("Some other exception type:")
+           e.printStackTrace()
+         }
+      } finally {
+         con.close()
+      }
 		val hash = new SimpleHashtable
 		hash.put("a","af")
 		hash.toString
-		Ok("Hello World!" + hash)
+		Ok(views.html.shu(apply(decorator.layout, 7) + "Hello World!" + hash))
+		//Ok(apply(decorator.layout, 7) + "Hello World!" + hash)
+
 	}
 	def swap2[V, K, R <: Map[V, K], P <: Map[K, V]](origin: P, supplier: () => R): R = {
 		val result = supplier()
@@ -68,6 +101,10 @@ var capacity = 10
 			result
 	}
 }
+
+class Decorator(left: String, right: String) {
+   def layout[A](x: A) = left + x.toString() + right
+ }
 
 class SimpleHashtable  {
 	var capacity = 10

@@ -6,7 +6,7 @@
 GET     /                           controllers.Application.index()
 #GET     /                           controllers.Application.info()
 # An example controller showing a sample home page
-#GET     /home                           controllers.Application.page(id:'home')
+#GET     /home/:id                           controllers.Application.page(id: String)
 #GET     /pages                  controllers.Application.page
 
 #GET     /                           controllers.HomeController.index
