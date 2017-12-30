@@ -1,0 +1,174 @@
+
+@*
+ * This template takes a single argument, a String containing a
+ * message to display.
+ *@
+@(message: String)
+
+@main(message) {
+
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>タイトル</title>
+</head>
+<body>
+<h3>お問い合わせフォーム</h3>
+<br>
+<br>
+Please input hope date：
+<br>
+<input type="text" name="hope_date"></textarea>
+<br>
+<br>
+Please input your URL：
+<br>
+<input type="text" name="text_impression"></textarea>
+<br>
+<br>
+Please input your phone number：
+<br>
+<input type="text" name="phone">
+<br>
+<br>
+
+<a href="#foo/hogehoge">foo</a>
+<input class="hello-button" style="WIDTH: 70px;" type="button" value="send" name="detailCashing">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.3.3/backbone-min.js"></script>
+<script>
+var User = Backbone.Model.extend({
+        defaults: {
+            id: "",
+            name: "",
+        },
+        initialize: function (firstInitialize) {
+            console.log("model initialized");
+        }
+});
+
+MyRouter = Backbone.Router.extend({
+    routes: {
+        "foo/:hoge": "bar" // (1)
+    },
+    bar: function (hoge) {
+        alert(hoge); // (2)
+    }
+});
+
+new MyRouter();
+Backbone.history.start();
+
+
+var Task = Backbone.Model.extend({
+        defaults: {
+            url: '/api/hoge',
+            title: "do something!",
+            completed: false
+        },
+
+        initialize: function () {
+            this.on('initialize', this.setRegisterDate);
+            this.trigger('initialize');
+        },
+        setRegisterDate: function () {
+            this.set('registerDate', new Date());
+        },
+        toggle: function () {
+            this.set('completed', !this.get('completed'));
+        }
+
+    });
+
+var task = new Task();
+
+    var TaskView = Backbone.View.extend({
+        template: _.template("<%- title %>"),
+        events: {
+            "click  .squre_btn": "onAdd",
+            "click .hello-button": "hello"
+        },
+        initialize: function () {
+            $('.hello-button').click(this.hello); 
+            this.listenTo(this.collection, 'change', function (model) {
+                console.log('collection catch ' + model.get('name') + ' model change event');
+            });
+            
+        },
+        hello: function () {
+	    var hope_date = document.getElementsByName('hope_date');
+	    var elm = document.getElementsByName('text_impression');
+	    var phone = document.getElementsByName('phone');
+	    
+	    $("body").append("<p>テキスト</p>"); // 追記
+            
+	    this.sticky_expression = function (param) {
+
+		let re = /([A-Za-z_][0-9A-Za-z_]*)/gy; // yをつけることでstickyフラグがONになる
+
+		re.lastIndex = 5;
+		let match = re.exec("1234 ABCDEFG");
+		console.log(match);
+		// => match: [0: 'ABCDEFG', 1: 'ABCDEFG', length: 2, index: 5]
+
+		re.lastIndex = 5;
+		let match2 = re.exec("1234 5678 ABCDEFG");
+		// => null
+		console.log(match2);
+
+	    };
+
+            this.url_expression = function (param) {
+
+		var head_http_match = param.match(/^http:\/\/[\w\d/%#$&?()~_.=+-]+[uk|jp|org|com]\/[\w\d/%#$&?()_.=+-]+/);
+		var head_https_match = param.match(/^https:\/\/[\w\d/%#$&?()~_.=+-]+[uk|jp|org|com]\/[\w\d/%#$&?()_.=+-]+/);
+		var localhost_filter = param.match(/localhost/);
+	
+		if ( ( head_http_match || head_https_match ) && !localhost_filter) {
+			alert(param);		
+		}else{
+			alert('入力された値はlocalhostであるか、またはURLではありません。');
+		}
+	    };
+            this.phone_expression = function (param) {
+
+		var bar_string_phone_match = param.match(/^0[7-9]0-\d\d\d\d-\d\d\d\d/);
+		var no_bar_string_phone_match = param.match(/^0[7-9]0\d\d\d\d\d\d\d\d/);
+	
+		if ( bar_string_phone_match || no_bar_string_phone_match) {
+			alert(param);		
+		}else{
+			alert('入力された値は電話番号ではありません。');
+		}
+	    };
+            this.date_expression = function (param) {
+
+	        var regObj = new RegExp(/\d{4}\/\d{2}\/\d{2}/g);
+		var res = param.match(regObj);
+		if ( res ) {
+			alert(param);		
+		}else{
+			alert('入力された値は日付ではありません。');
+		}
+	    };
+	    this.sticky_expression();
+	    this.url_expression(elm[0].value);
+	    this.phone_expression(phone[0].value);
+	    this.date_expression(hope_date[0].value);
+        },
+        render: function () {
+            var template = this.template(this.model.toJSON());
+            this.$el.html(template);
+            return this;
+        },
+    });
+    var taskView = new TaskView({model: task});
+</script>
+</body>
+</html>
+}
+
