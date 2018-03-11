@@ -6,17 +6,7 @@ import scala.collection.mutable.Map
 import scala.collection.mutable.Buffer
 import scala.collection.mutable.HashMap
 import java.sql.{DriverManager, Connection, Statement, ResultSet,SQLException}
-
-trait Monoid[T] {
-  def zero: T
-  def add(x: T, y: T): T
-}
-
-trait MyMap[K, V] {
-  def +=(kv: (K, V))
-  def lookup(key: K): Option[V]
-}
-
+import scala.util.parsing.combinator._
 
 class AList[K, V](keyValues: (K, V)*) extends MyMap[K, V] {
   val items: Buffer[(K, V)] = keyValues.toBuffer
@@ -38,6 +28,16 @@ class SimpleClass(id:String) {
   // インスタンス化のタイミングで実行される。
   println("create SimpleClass id:" + id)
 }
+
+
+object PostalCodeParser extends RegexParsers {
+  def postalCode = """\d{3}""".r ~ "-" ~ """\d{4}""".r
+  def apply(input: String): Either[String, Any] = parseAll(postalCode, input) match {
+      case Success(postalCodeData, next) => Right(postalCodeData)
+      case NoSuccess(errorMessage, next) => Left(errorMessage)
+  }
+}
+
 class Application extends Controller {
 
 	lazy val list = List(1, 2, 3)
@@ -53,6 +53,10 @@ var capacity = 10
 	var factor = 5
 
 
+	def formSample = Action {
+		Ok("ok")
+	}
+
 	def page(id : String) {
         	println(1)
 	}
@@ -63,19 +67,19 @@ var capacity = 10
 
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		var con =
-            DriverManager.getConnection("jdbc:mysql://localhost/test?" +
+            DriverManager.getConnection("jdbc:mysql://localhost/data1?" +
                                    "user=root&password=xg23y91a");
         try {
            var stmt = con.createStatement()
-           var rs = stmt.executeQuery("SELECT * FROM Auth")
+           var rs = stmt.executeQuery("SELECT * FROM Auth where id < 100")
            while (rs.next()){
               print(rs.getString(1) + " ")
               print(rs.getString(2) + " ")
               print(rs.getString(3) + " ")
-              print(rs.getString(4) + " ")
-              print(rs.getString(5) + " ")
-              print(rs.getString(6) + " ")
-              println(rs.getString(7))
+              //print(rs.getString(4) + " ")
+              //print(rs.getString(5) + " ")
+              //print(rs.getString(6) + " ")
+              //println(rs.getString(7))
           }
           stmt.close()
       } catch {
@@ -91,7 +95,8 @@ var capacity = 10
 		val hash = new SimpleHashtable
 		hash.put("a","af")
 		hash.toString
-		Ok(views.html.shu(apply(decorator.layout, 7) + "Hello World!" + hash))
+	        println(PostalCodeParser("1234567"))
+		Ok(views.html.backbone(apply(decorator.layout, 7) + "Hello World!" + hash))
 		//Ok(apply(decorator.layout, 7) + "Hello World!" + hash)
 
 	}
