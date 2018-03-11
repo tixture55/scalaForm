@@ -9,9 +9,6 @@ GET     /                           controllers.Application.index()
 #GET     /home/:id                           controllers.Application.page(id: String)
 #GET     /pages                  controllers.Application.page
 
-
-GET     /form_sample                controllers.Application.formSample
-
 #GET     /                           controllers.HomeController.index
 # An example controller showing how to use dependency injection
 GET     /count                      controllers.CountController.count
