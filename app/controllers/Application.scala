@@ -2,11 +2,16 @@ package controllers
 
 import play.api.mvc._
 
+
+import play.api.data.Form
+import play.api.data.Forms._
 import scala.collection.mutable.Map
 import scala.collection.mutable.Buffer
 import scala.collection.mutable.HashMap
 import java.sql.{DriverManager, Connection, Statement, ResultSet,SQLException}
 import scala.util.parsing.combinator._
+
+
 
 class AList[K, V](keyValues: (K, V)*) extends MyMap[K, V] {
   val items: Buffer[(K, V)] = keyValues.toBuffer
@@ -41,6 +46,7 @@ object PostalCodeParser extends RegexParsers {
 class Application extends Controller {
 
 	lazy val list = List(1, 2, 3)
+        val form = Form( "hope_date" -> text )
 	val hoge = new SimpleClass("test")
 	val original = HashMap("A" -> 123, "B" -> 456)
 	private[this] val supplier = () => new HashMap[Int, String]
@@ -52,10 +58,10 @@ var capacity = 10
 	var count = 0
 	var factor = 5
 
-
-	def formSample = Action {
-		Ok("ok")
-	}
+	def formSample = Action { implicit request =>
+    		val name = form.bindFromRequest.get
+    		Ok(name)
+  	}
 
 	def page(id : String) {
         	println(1)
@@ -76,10 +82,6 @@ var capacity = 10
               print(rs.getString(1) + " ")
               print(rs.getString(2) + " ")
               print(rs.getString(3) + " ")
-              //print(rs.getString(4) + " ")
-              //print(rs.getString(5) + " ")
-              //print(rs.getString(6) + " ")
-              //println(rs.getString(7))
           }
           stmt.close()
       } catch {
@@ -306,6 +308,7 @@ class EntryHolder {
 		  builder.toString()
 	}
 }
+
 
 class Entry( var key: String, var value: String) {
   override def toString(): String = {
